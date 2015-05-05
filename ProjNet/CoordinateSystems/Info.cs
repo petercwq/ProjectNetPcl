@@ -34,11 +34,11 @@ namespace ProjNet.CoordinateSystems
 		/// A base interface for metadata applicable to coordinate system objects.
 		/// </summary>
 		/// <remarks>
-		/// <para>The metadata items ‘Abbreviation’, ‘Alias’, ‘Authority’, ‘AuthorityCode’, ‘Name’ and ‘Remarks’ 
+		/// <para>The metadata items ‘Abbreviation? ‘Alias? ‘Authority? ‘AuthorityCode? ‘Name?and ‘Remarks?
 		/// were specified in the Simple Features interfaces, so they have been kept here.</para>
 		/// <para>This specification does not dictate what the contents of these items 
 		/// should be. However, the following guidelines are suggested:</para>
-		/// <para>When <see cref="ICoordinateSystemAuthorityFactory"/> is used to create an object, the ‘Authority’
+		/// <para>When <see cref="ICoordinateSystemAuthorityFactory"/> is used to create an object, the ‘Authority?
 		/// and 'AuthorityCode' values should be set to the authority name of the factory object, and the authority 
 		/// code supplied by the client, respectively. The other values may or may not be set. (If the authority is 
 		/// EPSG, the implementer may consider using the corresponding metadata values in the EPSG tables.)</para>

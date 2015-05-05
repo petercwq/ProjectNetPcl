@@ -158,67 +158,137 @@ namespace ProjNet.CoordinateSystems.Transformations
             return new double[] { x, y, z, };
 		}
 
-		/// <summary>
-		/// Converts coordinates in projected meters to decimal degrees.
-		/// </summary>
-		/// <param name="pnt">Point in meters</param>
-		/// <returns>Transformed point in decimal degrees</returns>		
-        private double[] MetersToDegrees(double[] pnt)
-		{
-			bool At_Pole = false; // indicates whether location is in polar region */
-			double Z = pnt.Length < 3 ? 0 : pnt[2].Equals(Double.NaN) ? 0 : pnt[2];
+        ///// <summary>
+        ///// Converts coordinates in projected meters to decimal degrees.
+        ///// </summary>
+        ///// <param name="pnt">Point in meters</param>
+        ///// <returns>Transformed point in decimal degrees</returns>		
+        //private double[] MetersToDegrees(double[] pnt)
+        //{
+        //    bool At_Pole = false; // indicates whether location is in polar region */
+        //    double Z = pnt.Length < 3 ? 0 : pnt[2].Equals(Double.NaN) ? 0 : pnt[2];
 
-			double lon = 0;
-			double lat = 0;
-			double Height = 0;
-			if (pnt[0] != 0.0)
-				lon = Math.Atan2(pnt[1], pnt[0]);
-			else
-			{
-				if (pnt[1] > 0)
-					lon = Math.PI/2;
+        //    double lon = 0;
+        //    double lat = 0;
+        //    double Height = 0;
+        //    if (pnt[0] != 0.0)
+        //        lon = Math.Atan2(pnt[1], pnt[0]);
+        //    else
+        //    {
+        //        if (pnt[1] > 0)
+        //            lon = Math.PI/2;
+        //        else if (pnt[1] < 0)
+        //            lon = -Math.PI * 0.5;
+        //        else
+        //        {
+        //            At_Pole = true;
+        //            lon = 0.0;
+        //            if (Z > 0.0)
+        //            {   /* north pole */
+        //                lat = Math.PI * 0.5;
+        //            }
+        //            else if (Z < 0.0)
+        //            {   /* south pole */
+        //                lat = -Math.PI * 0.5;
+        //            }
+        //            else
+        //            {   /* center of earth */
+        //                return new double[] { Radians2Degrees(lon), Radians2Degrees(Math.PI * 0.5), -semiMinor, };
+        //            }
+        //        }
+        //    }
+        //    double W2 = pnt[0] * pnt[0] + pnt[1] * pnt[1]; // Square of distance from Z axis
+        //    double W = Math.Sqrt(W2); // distance from Z axis
+        //    double T0 = Z * AD_C; // initial estimate of vertical component
+        //    double S0 = Math.Sqrt(T0 * T0 + W2); //initial estimate of horizontal component
+        //    double Sin_B0 = T0 / S0; //sin(B0), B0 is estimate of Bowring aux variable
+        //    double Cos_B0 = W / S0; //cos(B0)
+        //    double Sin3_B0 = Math.Pow(Sin_B0, 3);
+        //    double T1 = Z + semiMinor * ses * Sin3_B0; //corrected estimate of vertical component
+        //    double Sum = W - semiMajor * es * Cos_B0 * Cos_B0 * Cos_B0; //numerator of cos(phi1)
+        //    double S1 = Math.Sqrt(T1 * T1 + Sum * Sum); //corrected estimate of horizontal component
+        //    double Sin_p1 = T1 / S1; //sin(phi1), phi1 is estimated latitude
+        //    double Cos_p1 = Sum / S1; //cos(phi1)
+        //    double Rn = semiMajor / Math.Sqrt(1.0 - es * Sin_p1 * Sin_p1); //Earth radius at location
+        //    if (Cos_p1 >= COS_67P5)
+        //        Height = W / Cos_p1 - Rn;
+        //    else if (Cos_p1 <= -COS_67P5)
+        //         Height = W / -Cos_p1 - Rn;
+        //    else Height = Z / Sin_p1 + Rn * (es - 1.0);
+        //    if(!At_Pole)
+        //        lat = Math.Atan(Sin_p1 / Cos_p1);
+        //    return new double[] { Radians2Degrees(lon), Radians2Degrees(lat), Height, };
+        //}
+
+        /// <summary>
+        /// Converts coordinates in projected meters to decimal degrees.
+        /// </summary>
+        /// <param name="pnt">Point in meters</param>
+        /// <returns>Transformed point in decimal degrees</returns>		
+        private double[] MetersToDegrees(double[] pnt)
+        {
+            bool At_Pole = false; // indicates whether location is in polar region */
+            double Z = pnt.Length < 3 ? 0 : pnt[2].Equals(Double.NaN) ? 0 : pnt[2];
+
+            double lon = 0;
+            double lat = 0;
+            double Height = 0;
+            if (pnt[0] != 0.0)
+                lon = Math.Atan2(pnt[1], pnt[0]);
+            else
+            {
+                if (pnt[1] > 0)
+                    lon = Math.PI / 2;
                 else if (pnt[1] < 0)
-					lon = -Math.PI * 0.5;
-				else
-				{
-					At_Pole = true;
-					lon = 0.0;
-					if (Z > 0.0)
-					{   /* north pole */
-						lat = Math.PI * 0.5;
-					}
-					else if (Z < 0.0)
-					{   /* south pole */
-						lat = -Math.PI * 0.5;
-					}
-					else
-					{   /* center of earth */
+                    lon = -Math.PI * 0.5;
+                else
+                {
+                    At_Pole = true;
+                    lon = 0.0;
+                    if (Z > 0.0)
+                    {   /* north pole */
+                        lat = Math.PI * 0.5;
+                    }
+                    else if (Z < 0.0)
+                    {   /* south pole */
+                        lat = -Math.PI * 0.5;
+                    }
+                    else
+                    {   /* center of earth */
                         return new double[] { Radians2Degrees(lon), Radians2Degrees(Math.PI * 0.5), -semiMinor, };
-					}
-				}
-			}
-			double W2 = pnt[0] * pnt[0] + pnt[1] * pnt[1]; // Square of distance from Z axis
-			double W = Math.Sqrt(W2); // distance from Z axis
-			double T0 = Z * AD_C; // initial estimate of vertical component
-			double S0 = Math.Sqrt(T0 * T0 + W2); //initial estimate of horizontal component
-			double Sin_B0 = T0 / S0; //sin(B0), B0 is estimate of Bowring aux variable
-			double Cos_B0 = W / S0; //cos(B0)
-			double Sin3_B0 = Math.Pow(Sin_B0, 3);
-			double T1 = Z + semiMinor * ses * Sin3_B0; //corrected estimate of vertical component
-			double Sum = W - semiMajor * es * Cos_B0 * Cos_B0 * Cos_B0; //numerator of cos(phi1)
-			double S1 = Math.Sqrt(T1 * T1 + Sum * Sum); //corrected estimate of horizontal component
-			double Sin_p1 = T1 / S1; //sin(phi1), phi1 is estimated latitude
-			double Cos_p1 = Sum / S1; //cos(phi1)
-			double Rn = semiMajor / Math.Sqrt(1.0 - es * Sin_p1 * Sin_p1); //Earth radius at location
-			if (Cos_p1 >= COS_67P5)
-				Height = W / Cos_p1 - Rn;
-			else if (Cos_p1 <= -COS_67P5)
-				 Height = W / -Cos_p1 - Rn;
-			else Height = Z / Sin_p1 + Rn * (es - 1.0);
-			if(!At_Pole)
-				lat = Math.Atan(Sin_p1 / Cos_p1);
-            return new double[] { Radians2Degrees(lon), Radians2Degrees(lat), Height, };
-		}
+                    }
+                }
+            }
+
+            double W = Math.Sqrt(pnt[0] * pnt[0] + pnt[1] * pnt[1]); // distance from Z axis
+
+            double N0 = semiMajor;
+            double H0 = W - Math.Sqrt(semiMajor * semiMinor);
+            double B0 = Math.Atan(Z / W / (1.0 - es * N0 / (N0 + H0)));
+
+            double N1, H1, B1;
+            while (true)
+            {
+                N1 = semiMajor / Math.Sqrt(1.0 - es * Math.Pow(Math.Sin(B0), 2));
+                H1 = W / Math.Cos(B0) - N0;
+                B1 = Math.Atan(Z / W / (1.0 - es * N1 / (N1 + H1)));
+                if (Math.Abs(H1 - H0) > 1E-4 || Math.Abs(B1 - B0) > 1E-10)
+                {
+                    N0 = N1;
+                    H0 = H1;
+                    B0 = B1;
+                }
+                else
+                {
+                    if (!At_Pole)
+                        lat = B1;
+                    Height = H1;
+                    break;
+                }
+            }
+
+            return new double[] { Radians2Degrees(lon), Radians2Degrees(lat), Height };
+        }
 
         /// <summary>
         /// Transforms a coordinate point. The passed parameter point should not be modified.

@@ -24,7 +24,7 @@
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
     <IsWebBootstrapper>false</IsWebBootstrapper>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -39,7 +39,8 @@
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
   </PropertyGroup>
@@ -52,6 +53,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -61,16 +63,17 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="GeoAPI">
-      <HintPath>..\packages\GeoAPI.1.7.3.1\lib\net40-client\GeoAPI.dll</HintPath>
+      <HintPath>..\packages\GeoAPI.1.7.3.1\lib\net45\GeoAPI.dll</HintPath>
     </Reference>
     <Reference Include="Mono.Security">
       <HintPath>$(SolutionDir)packages\Npgsql.2.0.12.1\lib\net40\Mono.Security.dll</HintPath>
     </Reference>
     <Reference Include="NetTopologySuite">
-      <HintPath>..\packages\NetTopologySuite.1.13.3\lib\net40-client\NetTopologySuite.dll</HintPath>
+      <HintPath>..\packages\NetTopologySuite.1.13.3\lib\net45-client\NetTopologySuite.dll</HintPath>
     </Reference>
     <Reference Include="Npgsql">
       <HintPath>$(SolutionDir)packages\Npgsql.2.0.12.1\lib\net40\Npgsql.dll</HintPath>
@@ -82,7 +85,7 @@
       <HintPath>$(SolutionDir)packages\Npgsql.2.0.12.1\lib\net40\policy.2.0.Npgsql.dll</HintPath>
     </Reference>
     <Reference Include="PowerCollections">
-      <HintPath>..\packages\NetTopologySuite.1.13.3\lib\net40-client\PowerCollections.dll</HintPath>
+      <HintPath>..\packages\NetTopologySuite.1.13.3\lib\net45-client\PowerCollections.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -93,6 +96,11 @@
     <Compile Include="CoordinateTransformTestsBase.cs" />
     <Compile Include="ProjNetIssues.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Serialization\BaseSerializationTest.cs" />
     <Compile Include="Serialization\CoordinateSystemsProjectionsTest.cs" />
     <Compile Include="SharpMapIssues.cs" />
@@ -101,16 +109,6 @@
     </Compile>
     <Compile Include="WKT\PostGisSpatialRefSysTableParserTest.cs" />
     <Compile Include="WKT\WKTCoordSysParserTests.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\ProjNet\ProjNET.csproj">
-      <Project>{E028BDD2-55E1-4E5F-BE31-35FAEC8D6428}</Project>
-      <Name>ProjNET</Name>
-    </ProjectReference>
-    <ProjectReference Include="\ProjNET.csproj">
-      <Project>{E028BDD2-55E1-4E5F-BE31-35FAEC8D6428}</Project>
-      <Name>ProjNET</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -147,7 +145,17 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ProjNet\ProjNET.csproj">
+      <Project>{e028bdd2-55e1-4e5f-be31-35faec8d6428}</Project>
+      <Name>ProjNET</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />

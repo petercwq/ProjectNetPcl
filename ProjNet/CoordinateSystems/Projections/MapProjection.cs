@@ -309,7 +309,7 @@ namespace ProjNet.CoordinateSystems.Projections
             // Convert to radians
             var tmp = lonlat.Length == 2
                           ? new[] {Degrees2Radians(lonlat[0]), Degrees2Radians(lonlat[1])}
-                          : new[] {Degrees2Radians(lonlat[0]), Degrees2Radians(lonlat[1]), Degrees2Radians(lonlat[2])};
+                          : new[] { Degrees2Radians(lonlat[0]), Degrees2Radians(lonlat[1]), lonlat[2] /*Degrees2Radians(lonlat[2])*/};
 
             // Convert to meters
             var res = RadiansToMeters(tmp);

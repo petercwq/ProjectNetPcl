@@ -47,7 +47,7 @@ namespace ProjNet.CoordinateSystems.Projections
 	/// </summary>
 	/// <remarks>
 	/// <para>Universal (UTM) and Modified (MTM) Transverses Mercator projections. This
-	/// is a cylindrical projection, in which the cylinder has been rotated 90°.
+	/// is a cylindrical projection, in which the cylinder has been rotated 90?
 	/// Instead of being tangent to the equator (or to an other standard latitude),
 	/// it is tangent to a central meridian. Deformation are more important as we
 	/// are going futher from the central meridian. The Transverse Mercator
